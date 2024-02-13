@@ -6,14 +6,19 @@ const retingSytle = {
   gap: "10px",
 };
 
-export default function StarResult({ maxReting, color, size, message=[] }) {
+export default function StarResult({ maxReting, color, size, message=[], movie }) {
   const [reting, setReting] = useState(0);
   const [templetRet, setTempletRet] = useState(0);
 
   const textStyle = {
-    fontSize: `${size}px`,
+    fontSize: `${size}px` || "15px",
     color,
   };
+
+  const handleRsult = (reting) => {
+    setReting(reting)
+    movie(reting)
+  }
 
   return (
     <div style={retingSytle}>
@@ -22,7 +27,7 @@ export default function StarResult({ maxReting, color, size, message=[] }) {
           return (
             <Star
               key={i}
-              onRete={() => setReting(i + 1)}
+              onRete={() => handleRsult(i + 1)}
               full={templetRet ? templetRet >= i + 1 : reting >= i + 1}
               onMouseIn={() => setTempletRet(i + 1)}
               onMouseOut={() => setTempletRet(0)}

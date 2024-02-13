@@ -1,20 +1,19 @@
 import { useState } from "react";
 
-const starStyle = {
-  display: "block",
-  width: "15px",
-  height: "15px",
-  cursor: "pointer",
-};
 const retingSytle = {
   display: "flex",
   alignItems: "center",
   gap: "10px",
 };
 
-export default function StarResult({ maxReting }) {
+export default function StarResult({ maxReting, color, size, message=[] }) {
   const [reting, setReting] = useState(0);
-  const [templetRet, setTempletRet] = useState(0)
+  const [templetRet, setTempletRet] = useState(0);
+
+  const textStyle = {
+    fontSize: `${size}px`,
+    color,
+  };
 
   return (
     <div style={retingSytle}>
@@ -24,19 +23,29 @@ export default function StarResult({ maxReting }) {
             <Star
               key={i}
               onRete={() => setReting(i + 1)}
-              full={templetRet ?  templetRet >= i + 1 : reting >= i + 1}
-              onMouseIn = {() => setTempletRet(i+1)}
-              onMouseOut = { () => setTempletRet(0)}
+              full={templetRet ? templetRet >= i + 1 : reting >= i + 1}
+              onMouseIn={() => setTempletRet(i + 1)}
+              onMouseOut={() => setTempletRet(0)}
+              color={color}
+              size={size}
             />
           );
         })}
       </div>
-      <p>{templetRet || reting || ""}</p>
+      <p style={textStyle}>{ message.length === maxReting ? message[templetRet ? templetRet-1 : reting-1] : templetRet || reting || ""}</p>
     </div>
   );
 }
 
-function Star({ onRete, full, onMouseIn, onMouseOut }) {
+function Star({ onRete, full, onMouseIn, onMouseOut, color, size }) {
+  const starStyle = {
+    display: "block",
+    width: `${size}px`,
+    height: `${size}px`,
+    cursor: "pointer",
+    margin: "10px 0",
+  };
+
   return (
     <span
       role="button"
@@ -49,8 +58,8 @@ function Star({ onRete, full, onMouseIn, onMouseOut }) {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
-          fill="#FDE767"
-          stroke="#FDE767"
+          fill={color}
+          stroke={color}
         >
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
@@ -59,7 +68,7 @@ function Star({ onRete, full, onMouseIn, onMouseOut }) {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke="#FDE767"
+          stroke={color}
         >
           <path
             strokeLinecap="round"

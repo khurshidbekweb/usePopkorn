@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types'
 
 const retingSytle = {
   display: "flex",
@@ -6,7 +7,15 @@ const retingSytle = {
   gap: "10px",
 };
 
-export default function StarResult({ maxReting, color, size, message=[], movie }) {
+StarResult.propTypes = {
+  maxReting: PropTypes.number,
+  color: PropTypes.string,
+  size: PropTypes.number,
+  message: PropTypes.array,
+  movie: PropTypes.func
+}
+
+export default function StarResult({ maxReting=5, color="#FDE767", size=15, message=[], movie }) {
   const [reting, setReting] = useState(0);
   const [templetRet, setTempletRet] = useState(0);
 
